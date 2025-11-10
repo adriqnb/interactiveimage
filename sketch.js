@@ -11,6 +11,10 @@ const D_TIME = 1; // decay to sustain
 const S_LEVEL = 1; // sustain level while alive (50%)
 const R_TIME = 0.01; // fast release on death
 
+let pullBack = 1;
+let mouseXorig;
+let color;
+let mouseYorig;
 function preload()
 {
 img = loadImage('assets/interactive.jpg');
@@ -57,13 +61,16 @@ function draw() {
   rect(0, height - 20, 100, 20);
   fill(0);
   text("X: " + mouseX + " Y: " + mouseY, 10, height - 5);
-  fill('black');
+  fill('black');//black triangle
   triangle(29,323,172,179,168,464);
-  fill(162,32,6);
-  triangle(193,160,332,20,470,161);
-  fill(231,219,119);
+  
+  
+  
+  
+  fill(231,219,119);//yellow triangle
   triangle(294,597,368,598,331,636);
-  fill(223,229,225);
+
+  fill(223,229,225);//white triangle
   triangle(571,264,574,387,635,325);
 
   // display current oscillator type
@@ -131,8 +138,14 @@ function draw() {
       oscType = 'triangle';
     }
   }
+  // ---------red triangle----------
+  fill(162,32,6);
+  if(pullBack === 0 && mouseX >= mouseXorig)
+    triangle((193-((mouseX-mouseXorig)/5)),160,(332),20,470+((mouseX-mouseXorig)/5),161);
+  else
+    triangle(193,160,332,20,470,161);
+  //---------------------------------
 }
-
 // top left triangle: M(20, 10) R(332, 10) L(20, 325)
 // top right triangle M(645, 10) R(645, 325) L(332, 10)
 // bottom left triangle M(20, 645) R(332, 645) L(20, 325)
@@ -145,6 +158,13 @@ function middleSquare(){
   noStroke();
   fill(x,0,y,150);
   rect(170,179,272,285);
+}
+function mousePressed(){
+    pullBack = 0;
+    mouseXorig = mouseX;
+  }
+function mouseReleased(){
+  pullBack = 1;
 }
 
 function updateSound() {
