@@ -1,7 +1,5 @@
 let img, ctx;
-const OscType = {
-  TYPE: 'triangle'
-}
+const oscType = 'triangle';
 
 // ADSR-like envelope (seconds)
 const A_TIME = 1; // fast attack
@@ -24,7 +22,7 @@ function setup() {
   const o = ctx.createOscillator();
   const g = ctx.createGain();
 
-  o.type = OscType.TYPE;
+  o.type = oscType;
   o.frequency.value = 260;
   o.connect(g);
   g.connect(ctx.destination);
