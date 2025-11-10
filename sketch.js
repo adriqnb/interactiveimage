@@ -1,4 +1,4 @@
-let img, ctx, o, mouseXorig;
+let img, ctx, o, mouseXorig, playing = false;
 let oscType = 'triangle';
 let pullBack = 1;
 let invert = 0;
@@ -154,12 +154,20 @@ function middleSquare(){
   fill(x,0,y,150);
   rect(170,179,272,285);
 }
+
 function mousePressed(){
-    pullBack = 0;
-    mouseXorig = mouseX;
-  }
+  pullBack = 0;
+  mouseXorig = mouseX;
+}
+
 function mouseReleased(){
   pullBack = 1;
+}
+
+function mouseClicked(){
+  if (ctx.state == 'suspended'){ 
+    o.start();
+  }
 }
 
 function updateSound() {
