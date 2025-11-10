@@ -1,6 +1,10 @@
 let img, ctx, o;
 let oscType = 'triangle';
 
+// volume slider
+let volumeSlider;
+let masterGain = null;
+
 // ADSR-like envelope (seconds)
 const A_TIME = 1; // fast attack
 const D_TIME = 1; // decay to sustain
@@ -14,6 +18,11 @@ img = loadImage('assets/interactive.jpg');
 
 function setup() {
   createCanvas(660, 655);
+
+  // Volume slider
+  volumeSlider = createSlider(0, 1, 0.5, 0.01);
+  volumeSlider.position(10, height + 10);
+  volumeSlider.style('width', '100px');
 
   ctx = ctx || new AudioContext();
 
@@ -36,6 +45,11 @@ function draw() {
   image(img, 0, 0);
   updateSound();
   middleSquare();
+
+  // Keep master volume synced to slider value
+  if (masterGain && volumeSlider) {
+    masterGain.gain.value = volumeSlider.value();
+  }
 
   // display mouse coordinates
   fill(255);
