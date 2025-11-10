@@ -61,7 +61,7 @@ function draw() {
   noStroke();
   fill(255, 0, 0, 100);
   // top left triangle
-  if (mouseX > 20 && mouseX < 332 && mouseY > 10 && mouseY < 325 && mouseY < (mouseX - 20) * (315 / 312) + 10) {
+  if (mouseX > 20 && mouseX < 332 && mouseY > 10 && mouseY < 325 && mouseY < (-315 / 312) * (mouseX - 645) + 10) {
     triangle(20, 10, 332, 10, 20, 325);
 
     cursor(HAND);
@@ -75,7 +75,7 @@ function draw() {
   }
   // top right triangle
   fill(0, 0, 255, 100);
-  if (mouseX > 332 && mouseX < 645 && mouseY > 10 && mouseY < 325 && mouseY < (-315 / 313) * (mouseX - 645) + 10) {
+  if (mouseX > 332 && mouseX < 645 && mouseY > 10 && mouseY < 325 && mouseY < (315 / 313) * (mouseX - 20) + 10) {
     triangle(645, 10, 645, 325, 332, 10);
 
     cursor(HAND);
@@ -89,7 +89,7 @@ function draw() {
   }
   // bottom left triangle
   fill(0, 255, 0, 100);
-  if (mouseX > 20 && mouseX < 332 && mouseY > 325 && mouseY < 645 && mouseY > (-315 / 312) * (mouseX - 20) + 645) {
+  if (mouseX > 20 && mouseX < 332 && mouseY > 325 && mouseY < 645 && mouseY > (315 / 312) * (mouseX - 645) + 645) {
     triangle(20, 645, 332, 645, 20, 325);
 
     cursor(HAND);
@@ -103,7 +103,7 @@ function draw() {
   }
   // bottom right triangle
   fill(255, 255, 0, 100);
-  if (mouseX > 332 && mouseX < 645 && mouseY > 325 && mouseY < 645 && mouseY > (315 / 313) * (mouseX - 645) + 645) {
+  if (mouseX > 332 && mouseX < 645 && mouseY > 325 && mouseY < 645 && mouseY > (-315 / 313) * (mouseX - 20) + 645) {
     triangle(645, 645, 645, 332, 332, 645);
 
     cursor(HAND);
