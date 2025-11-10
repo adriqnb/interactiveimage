@@ -1,7 +1,17 @@
+let img;
+function preload()
+{
+img = loadImage('assets/interactive.jpg');
+}
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(660, 655);
+
+  image(img, 0, 0);
 }
 
 function draw() {
-  background(220);
+  
+  image(img, 0, 0);
 }
+
