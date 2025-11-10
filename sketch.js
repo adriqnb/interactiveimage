@@ -1,5 +1,5 @@
-let img, ctx;
-const oscType = 'triangle';
+let img, ctx, o;
+let oscType = 'triangle';
 
 // ADSR-like envelope (seconds)
 const A_TIME = 1; // fast attack
@@ -50,6 +50,13 @@ function draw() {
   fill(223,229,225);
   triangle(571,264,574,387,635,325);
 
+  // display current oscillator type
+  fill(255);
+  noStroke();
+  rect(width - 150, height - 20, 150, 20);
+  fill(0);
+  text("Waveform: " + oscType, width - 140, height - 5);
+
   // highlight triangles on mouseover
   noStroke();
   fill(255, 0, 0, 100);
@@ -63,13 +70,7 @@ function draw() {
       fill(255,255,255,150);
       triangle(20, 10, 332, 10, 20, 325);
 
-      osc.type = 'sine';
-
-      const g = audioCtx.createGain();
-      g.gain.setValueAtTime(0, audioCtx.currentTime);
-
-      osc.connect(g);
-      g.connect(masterGain);
+      oscType = 'sine';
     }
   }
   // top right triangle
@@ -83,13 +84,7 @@ function draw() {
       fill(255,255,255,150);
       triangle(645, 10, 645, 325, 332, 10);
 
-      osc.type = 'square';
-
-      const g = audioCtx.createGain();
-      g.gain.setValueAtTime(0, audioCtx.currentTime);
-      
-      osc.connect(g);
-      g.connect(masterGain);
+      oscType = 'square';
     }
   }
   // bottom left triangle
@@ -103,13 +98,7 @@ function draw() {
       fill(255,255,255,150);
       triangle(20, 645, 332, 645, 20, 325);
 
-      osc.type = 'sawtooth';
-
-      const g = audioCtx.createGain();
-      g.gain.setValueAtTime(0, audioCtx.currentTime);
-
-      osc.connect(g);
-      g.connect(masterGain);
+      oscType = 'sawtooth';
     }
   }
   // bottom right triangle
@@ -123,13 +112,7 @@ function draw() {
       fill(255,255,255,150);
       triangle(645, 645, 645, 332, 332, 645);
 
-      osc.type = 'triangle';
-
-      const g = audioCtx.createGain();
-      g.gain.setValueAtTime(0, audioCtx.currentTime);
-
-      osc.connect(g);
-      g.connect(masterGain);
+      oscType = 'triangle';
     }
   }
 }
