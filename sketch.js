@@ -1,4 +1,14 @@
-let img;
+let img, ctx;
+const OscType = {
+  TYPE: 'triangle'
+}
+
+// ADSR-like envelope (seconds)
+const A_TIME = 1; // fast attack
+const D_TIME = 1; // decay to sustain
+const S_LEVEL = 1; // sustain level while alive (50%)
+const R_TIME = 0.01; // fast release on death
+
 function preload()
 {
 img = loadImage('assets/interactive.jpg');
@@ -7,6 +17,19 @@ img = loadImage('assets/interactive.jpg');
 function setup() {
   createCanvas(660, 655);
 
+  ctx = ctx || new AudioContext();
+
+  if (ctx.state === 'suspended') ctx.resume();
+
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+
+  o.type = OscType.TYPE;
+  o.frequency.value = 260;
+  o.connect(g);
+  g.connect(ctx.destination);
+  
+  o.start();
 }
 
 function draw() {
