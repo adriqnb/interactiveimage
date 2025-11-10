@@ -29,13 +29,9 @@ function setup() {
   o.frequency.value = freq;
   o.connect(g);
   g.connect(ctx.destination);
-
-  o.start();
 }
 
 function draw() {
-  
-  console.log(invert);
 
   image(img, 0, 0);
   updateSound();
