@@ -1,4 +1,4 @@
-let img, ctx, o;
+let img, ctx, o, playing = false;
 let oscType = 'triangle';
 
 // ADSR-like envelope (seconds)
@@ -144,12 +144,20 @@ function middleSquare(){
   fill(x,0,y,150);
   rect(170,179,272,285);
 }
+
 function mousePressed(){
-    pullBack = 0;
-    mouseXorig = mouseX;
-  }
+  pullBack = 0;
+  mouseXorig = mouseX;
+}
+
 function mouseReleased(){
   pullBack = 1;
+}
+
+function mouseClicked(){
+  if (ctx.state == 'suspended'){ 
+    o.start();
+  }
 }
 
 function updateSound() {
