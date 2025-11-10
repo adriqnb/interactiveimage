@@ -1,16 +1,14 @@
-let img, ctx, o;
+let img, ctx, o, mouseXorig;
 let oscType = 'triangle';
-
+let pullBack = 1;
+let invert = 0;
 // ADSR-like envelope (seconds)
 const A_TIME = 1; // fast attack
 const D_TIME = 1; // decay to sustain
 const S_LEVEL = 1; // sustain level while alive (50%)
 const R_TIME = 0.01; // fast release on death
 
-let pullBack = 1;
-let mouseXorig;
-let color;
-let mouseYorig;
+
 function preload()
 {
 img = loadImage('assets/interactive.jpg');
@@ -37,6 +35,8 @@ function setup() {
 
 function draw() {
   
+  console.log(invert);
+
   image(img, 0, 0);
   updateSound();
   middleSquare();
@@ -46,16 +46,23 @@ function draw() {
   rect(0, height - 20, 100, 20);
   fill(0);
   text("X: " + mouseX + " Y: " + mouseY, 10, height - 5);
+  
+  if(invert === 0)
   fill('black');//black triangle
+  else
+  fill('white');
   triangle(29,323,172,179,168,464);
   
-  
-  
-  
+  if(invert === 0)
   fill(231,219,119);//yellow triangle
+  else
+  fill(255-231,255-219,255-119);
   triangle(294,597,368,598,331,636);
 
+  if(invert === 0)
   fill(223,229,225);//white triangle
+  else
+  fill(255-223,255-229,255-225)
   triangle(571,264,574,387,635,325);
 
   // display current oscillator type
@@ -124,7 +131,10 @@ function draw() {
     }
   }
   // ---------red triangle----------
+  if(invert === 0)
   fill(162,32,6);
+  else
+  fill(255-162,255-32,255-6);
   if(pullBack === 0 && mouseX >= mouseXorig)
     triangle((193-((mouseX-mouseXorig)/5)),160,(332),20,470+((mouseX-mouseXorig)/5),161);
   else
@@ -157,4 +167,12 @@ function updateSound() {
 
   o.type = oscType;
   o.frequency.value = freq;
+}
+
+function keyPressed()
+{
+  if(key === ' ' && invert != 1)
+    invert = 1;
+  else if(key === ' ' )
+    invert = 0;
 }
