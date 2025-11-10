@@ -19,20 +19,22 @@ function setup() {
 
   if (ctx.state === 'suspended') ctx.resume();
 
-  const o = ctx.createOscillator();
+  o = ctx.createOscillator();
   const g = ctx.createGain();
 
+  let freq = map(mouseX, 0, 660, 100, 1000);
   o.type = oscType;
-  o.frequency.value = 260;
+  o.frequency.value = freq;
   o.connect(g);
   g.connect(ctx.destination);
-  
+
   o.start();
 }
 
 function draw() {
   
   image(img, 0, 0);
+  updateSound();
   middleSquare();
 
   // display mouse coordinates
@@ -117,14 +119,6 @@ function draw() {
   }
 }
 
-
-
-
-
-
-
-
-
 // top left triangle: M(20, 10) R(332, 10) L(20, 325)
 // top right triangle M(645, 10) R(645, 325) L(332, 10)
 // bottom left triangle M(20, 645) R(332, 645) L(20, 325)
@@ -139,4 +133,9 @@ function middleSquare(){
   rect(170,179,272,285);
 }
 
+function updateSound() {
+  let freq = map(mouseX, 0, 660, 100, 1000);
 
+  o.type = oscType;
+  o.frequency.value = freq;
+}
