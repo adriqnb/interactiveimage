@@ -1,4 +1,12 @@
-let img;
+let img, ctx, o;
+let oscType = 'triangle';
+
+// ADSR-like envelope (seconds)
+const A_TIME = 1; // fast attack
+const D_TIME = 1; // decay to sustain
+const S_LEVEL = 1; // sustain level while alive (50%)
+const R_TIME = 0.01; // fast release on death
+
 let pullBack = 1;
 let mouseXorig;
 let color;
@@ -11,11 +19,26 @@ img = loadImage('assets/interactive.jpg');
 function setup() {
   createCanvas(660, 655);
 
+  ctx = ctx || new AudioContext();
+
+  if (ctx.state === 'suspended') ctx.resume();
+
+  o = ctx.createOscillator();
+  const g = ctx.createGain();
+
+  let freq = map(mouseX, 0, 660, 100, 1000);
+  o.type = oscType;
+  o.frequency.value = freq;
+  o.connect(g);
+  g.connect(ctx.destination);
+
+  o.start();
 }
 
 function draw() {
   
   image(img, 0, 0);
+  updateSound();
   middleSquare();
   // display mouse coordinates
   fill(255);
@@ -35,27 +58,70 @@ function draw() {
   fill(223,229,225);//white triangle
   triangle(571,264,574,387,635,325);
 
+  // display current oscillator type
+  fill(255);
+  noStroke();
+  rect(width - 150, height - 20, 150, 20);
+  fill(0);
+  text("Waveform: " + oscType, width - 140, height - 5);
+
   // highlight triangles on mouseover
   noStroke();
   fill(255, 0, 0, 100);
   // top left triangle
-  if (mouseX > 20 && mouseX < 332 && mouseY > 10 && mouseY < 325 && mouseY < (mouseX - 20) * (315 / 312) + 10) {
+  if (mouseX > 20 && mouseX < 332 && mouseY > 10 && mouseY < 325 && mouseY < (-315 / 312) * (mouseX - 645) + 10) {
     triangle(20, 10, 332, 10, 20, 325);
+
+    cursor(HAND);
+
+    if (mouseIsPressed){
+      fill(255,255,255,150);
+      triangle(20, 10, 332, 10, 20, 325);
+
+      oscType = 'sine';
+    }
   }
   // top right triangle
   fill(0, 0, 255, 100);
-  if (mouseX > 332 && mouseX < 645 && mouseY > 10 && mouseY < 325 && mouseY < (-315 / 313) * (mouseX - 645) + 10) {
+  if (mouseX > 332 && mouseX < 645 && mouseY > 10 && mouseY < 325 && mouseY < (315 / 313) * (mouseX - 20) + 10) {
     triangle(645, 10, 645, 325, 332, 10);
+
+    cursor(HAND);
+
+    if (mouseIsPressed){
+      fill(255,255,255,150);
+      triangle(645, 10, 645, 325, 332, 10);
+
+      oscType = 'square';
+    }
   }
   // bottom left triangle
   fill(0, 255, 0, 100);
-  if (mouseX > 20 && mouseX < 332 && mouseY > 325 && mouseY < 645 && mouseY > (-315 / 312) * (mouseX - 20) + 645) {
+  if (mouseX > 20 && mouseX < 332 && mouseY > 325 && mouseY < 645 && mouseY > (315 / 312) * (mouseX - 645) + 645) {
     triangle(20, 645, 332, 645, 20, 325);
+
+    cursor(HAND);
+
+    if (mouseIsPressed){
+      fill(255,255,255,150);
+      triangle(20, 645, 332, 645, 20, 325);
+
+      oscType = 'sawtooth';
+    }
   }
   // bottom right triangle
   fill(255, 255, 0, 100);
-  if (mouseX > 332 && mouseX < 645 && mouseY > 325 && mouseY < 645 && mouseY > (315 / 313) * (mouseX - 645) + 645) {
+  if (mouseX > 332 && mouseX < 645 && mouseY > 325 && mouseY < 645 && mouseY > (-315 / 313) * (mouseX - 20) + 645) {
     triangle(645, 645, 645, 332, 332, 645);
+
+    cursor(HAND);
+
+    if (mouseIsPressed){
+      fill(255,255,255,150);
+      triangle(645, 645, 645, 332, 332, 645);
+
+      oscType = 'triangle';
+    }
   }
   // ---------red triangle----------
   fill(162,32,6);
@@ -84,4 +150,11 @@ function mousePressed(){
   }
 function mouseReleased(){
   pullBack = 1;
+}
+
+function updateSound() {
+  let freq = map(mouseX, 0, 660, 100, 1000);
+
+  o.type = oscType;
+  o.frequency.value = freq;
 }
