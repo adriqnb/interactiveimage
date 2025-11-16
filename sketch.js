@@ -1,4 +1,4 @@
-let img, ctx, o, mouseXorig, playing = false;
+let img, ctx, o, mouseXorig, g, playing = false;
 let oscType = 'triangle';
 
 // volume slider
@@ -31,7 +31,7 @@ function setup() {
   if (ctx.state === 'suspended') ctx.resume();
 
   o = ctx.createOscillator();
-  const g = ctx.createGain();
+  g = ctx.createGain();
 
   let freq = map(mouseX, 0, 660, 100, 1000);
   o.type = oscType;
@@ -186,6 +186,7 @@ function updateSound() {
 
   o.type = oscType;
   o.frequency.value = freq;
+  g.gain.value = volumeSlider.value();
 }
 
 function keyPressed()
