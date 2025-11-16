@@ -35,8 +35,6 @@ function setup() {
 
 function draw() {
   
-  console.log(invert);
-
   image(img, 0, 0);
   updateSound();
   middleSquare();
