@@ -1,5 +1,9 @@
 let img, ctx, o, mouseXorig, playing = false;
 let oscType = 'triangle';
+
+// volume slider
+let volumeSlider;
+let masterGain = null;
 let pullBack = 1;
 let invert = 0;
 // ADSR-like envelope (seconds)
@@ -17,6 +21,11 @@ img = loadImage('assets/interactive.jpg');
 function setup() {
   createCanvas(660, 655);
 
+  // Volume slider
+  volumeSlider = createSlider(0, 1, 0.5, 0.01);
+  volumeSlider.position(10, height + 10);
+  volumeSlider.style('width', '100px');
+
   ctx = ctx || new AudioContext();
 
   if (ctx.state === 'suspended') ctx.resume();
@@ -29,15 +38,19 @@ function setup() {
   o.frequency.value = freq;
   o.connect(g);
   g.connect(ctx.destination);
-
-  o.start();
 }
 
 function draw() {
-  
+
   image(img, 0, 0);
   updateSound();
   middleSquare();
+
+  // Keep master volume synced to slider value
+  if (masterGain && volumeSlider) {
+    masterGain.gain.value = volumeSlider.value();
+  }
+
   // display mouse coordinates
   fill(255);
   noStroke();
